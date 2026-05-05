@@ -1,41 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   routine_functions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/04 16:25:26 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/04 19:18:35 by rvaz-da-         ###   ########.fr       */
+/*   Created: 2026/05/05 15:44:20 by rvaz-da-          #+#    #+#             */
+/*   Updated: 2026/05/05 15:44:21 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-void	safe_exit_mutexes(t_sim *sim, int ix)
+void	compile(t_coder *coder)
 {
-	int	i;
-
-	i = 0;
-	while (i < ix)
-	{
-		pthread_mutex_destroy(&sim->dongles[i].mutex);
-		i++;
-	}
-	free(sim->dongles);
-	free(sim->coders);
+	printf("coder %d is compiling\n", coder->id);
 }
 
-bool	check_compilations(t_sim *sim, t_args args)
+void	debug(t_coder *coder)
 {
-	int	i;
+	printf("coder %d is debugging\n", coder->id);
+}
 
-	i = 0;
-	while (i < args.number_of_coders)
-	{
-		if (sim->coders[i].compile_count < args.number_of_compiles_required)
-			return (false);
-		i++;
-	}
-	return (true);
+void	refactor(t_coder *coder)
+{
+	printf("coder %d is refactoring\n", coder->id);
 }

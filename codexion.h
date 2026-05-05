@@ -34,6 +34,8 @@
 # define INV_SCHEDULER "Parsing Error: Scheduler only accepts 'fifo' or 'edf'\n"
 # define SCHEDULER_ALLOC "Allocation Error: scheduler type arg\n"
 
+struct	s_sim;
+
 typedef struct s_args
 {
 	int		number_of_coders;
@@ -55,17 +57,20 @@ typedef struct s_dongle
 
 typedef struct s_coder
 {
-	int			id;
-	int			compile_count;
-	pthread_t	thread_id;
-	t_dongle	*right;
-	t_dongle	*left;
+	int				id;
+	int				compile_count;
+	pthread_t		thread_id;
+	struct s_sim	*sim;
+	t_dongle		*right;
+	t_dongle		*left;
 }	t_coder;
 
 typedef struct s_sim
 {
+	pthread_t	monitor;
 	t_coder		*coders;
 	t_dongle	*dongles;
+	t_args		args;
 }	t_sim;
 
 // PARSING
@@ -75,12 +80,29 @@ char	*ft_strdup(char *str);
 t_args	init_data(char *av[]);
 
 // INIT
-bool	sim_init(t_sim *sim, t_args args);
 bool	init_dongle(t_dongle *dongle, int id);
-void	init_coder(t_dongle *dongles, t_coder *coder, int id, int nb_coders);
+void	init_coder(t_sim *sim, t_coder *coder, int id, int nb_coders);
+bool	sim_init(t_sim *sim, t_args args);
 
-// SIMULATION
-void	start_simulation(t_args args);
-//void    simulation_cleanup(t_args *args)
+// SIMULATION INIT
+bool	create_coders(t_sim *sim, int nb_coders);
+void	wait_for_coders(t_sim *sim, int nb_coders);
+
+// ROUTINE
+void	compile(t_coder *coder);
+void	debug(t_coder *coder);
+void	refactor(t_coder *coder);
+void	start_routine(t_coder *coder, t_args args);
+void	*routine(void *arg);
+
+// MONITORING
+void	*monitoring(void *arg);
+
+void	simulation(t_args args);
+//void  cleanup(t_args *args)
+
+// UTILS
+void	safe_exit_mutexes(t_sim *sim, int ix);
+bool	check_compilations(t_sim *sim, t_args args);
 
 #endif

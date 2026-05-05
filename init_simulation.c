@@ -21,13 +21,14 @@ bool	init_dongle(t_dongle *dongle, int id)
 	return (true);
 }
 
-void	init_coder(t_dongle *dongles, t_coder *coder, int id, int nb_coders)
+void	init_coder(t_sim *sim, t_coder *coder, int id, int nb_coders)
 {
 	coder->id = id;
 	coder->compile_count = 0;
 	coder->thread_id = 0;
-	coder->left = &dongles[id];
-	coder->right = &dongles[(id + 1) % nb_coders];
+	coder->sim = sim;
+	coder->left = &sim->dongles[id];
+	coder->right = &sim->dongles[(id + 1) % nb_coders];
 }
 
 bool	sim_init(t_sim *sim, t_args args)
@@ -35,6 +36,8 @@ bool	sim_init(t_sim *sim, t_args args)
 	int	i;
 
 	i = 0;
+	sim->args = args;
+	sim->monitor = 0;
 	sim->coders = malloc(sizeof(t_coder) * args.number_of_coders);
 	sim->dongles = malloc(sizeof(t_dongle) * args.number_of_coders);
 	if (!sim->coders || !sim->dongles)
@@ -42,14 +45,14 @@ bool	sim_init(t_sim *sim, t_args args)
 	while (i < args.number_of_coders)
 	{
 		if (!init_dongle(&sim->dongles[i], i))
-			return (safe_exit_mutexes(&sim->dongles[i], i),
+			return (safe_exit_mutexes(sim, i),
 				free(args.scheduler), false);
 		i++;
 	}
 	i = 0;
 	while (i < args.number_of_coders)
 	{
-		init_coder(sim->dongles, &sim->coders[i], i, args.number_of_coders);
+		init_coder(sim, &sim->coders[i], i, args.number_of_coders);
 		i++;
 	}
 	return (true);

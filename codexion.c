@@ -25,7 +25,7 @@ int	main(int ac, char *av[])
 	args = init_data(av);
 	if (!args.scheduler)
 		return (1);
-	start_simulation(args);
-	//simulation_cleanup(&args)
+	simulation(args);
+	// simulation_cleanup(&args)
 	return (0);
 }
