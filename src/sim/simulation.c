@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 19:01:23 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/14 12:40:04 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/14 19:19:08 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ bool	sim_init(t_sim *sim, t_args *args)
 	sim->start = now_ms();
 	sim->args = args;
 	pthread_mutex_init(&sim->mutex, NULL);
+	pthread_cond_init(&sim->cond, NULL);
 	sim->dongles = malloc(sizeof(t_dongle) * args->number_of_coders);
 	sim->coders = malloc(sizeof(t_coder) * args->number_of_coders);
 	if (!sim->dongles && !sim->coders)
@@ -75,11 +76,11 @@ void	cleanup(t_sim *sim)
 
 	i = 0;
 	pthread_mutex_destroy(&sim->mutex);
+	pthread_cond_destroy(&sim->cond);
 	while (i < sim->args->number_of_coders)
 	{
 		free(sim->dongles[i].heap.list);
 		pthread_mutex_destroy(&sim->dongles[i].mutex);
-		pthread_cond_destroy(&sim->dongles[i].cond);
 		pthread_mutex_destroy(&sim->coders[i].mutex);
 		i++;
 	}

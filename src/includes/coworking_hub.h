@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 18:31:51 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/14 14:37:15 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/14 19:14:19 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ typedef struct s_dongle
 	long			released_at;
 	t_heap			heap;
 	pthread_mutex_t	mutex;
-	pthread_cond_t	cond;
 }	t_dongle;
 
 typedef struct s_coder
@@ -61,6 +60,7 @@ typedef struct s_sim
 	bool			active;
 	long			start;
 	pthread_mutex_t	mutex;
+	pthread_cond_t	cond;
 	pthread_t		monitor;
 	t_args			*args;
 	t_dongle		*dongles;

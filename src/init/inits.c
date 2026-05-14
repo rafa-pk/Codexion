@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 15:04:49 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/14 12:37:11 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/14 19:16:05 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ bool	init_dongle(t_dongle *dongle, int id)
 	if (!init_heap(&dongle->heap))
 		return (false);
 	if (pthread_mutex_init(&dongle->mutex, NULL))
-		return (false);
-	if (pthread_cond_init(&dongle->cond, NULL))
 		return (false);
 	return (true);
 }
