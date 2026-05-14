@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 18:31:51 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/13 12:43:49 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/14 14:37:15 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_args
 
 typedef struct s_heap
 {
-	void	**list;
+	void	*list;
 	int		size;
 	int		capacity;
 }	t_heap;

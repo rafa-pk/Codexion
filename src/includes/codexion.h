@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 18:24:43 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/13 18:08:56 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/14 14:55:56 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,12 @@ bool	refactor(t_sim *sim, t_coder *coder);
 
 //Monitor
 void	*monitoring(void *arg);
+
+// Heap
+void	edf_push(t_heap *heap, t_coder *coder);
+void	fifo_push(t_heap *heap, t_coder *coder);
+void	heap_pop(t_heap *heap);
+int		heap_peek(t_heap *heap);
 
 // Utils
 long	now_ms(void);
