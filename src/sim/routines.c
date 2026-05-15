@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 17:38:47 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/14 12:39:08 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/15 17:21:12 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	*monitoring(void *arg)
 	t_sim	*sim;
 	int		i;
 	int		dead;
+	long	now;
 
 	sim = (t_sim *)arg;
 	printf("In monitoring thread\n");
@@ -46,8 +47,9 @@ void	*monitoring(void *arg)
 		if (dead!= -1)
 		{
 			pthread_mutex_lock(&sim->mutex);
+			now = now_ms() - sim->start;
 			sim->active = false;
-			printf("coder %d burned out\n", dead);
+			printf("%ld %d burned out\n", now, sim->coders[dead].id);
 			pthread_mutex_unlock(&sim->mutex);
 			return (NULL);
 		}

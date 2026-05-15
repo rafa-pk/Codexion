@@ -6,14 +6,15 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 18:31:51 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/14 19:14:19 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/15 16:39:07 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COWORKING_HUB_H
 # define COWORKING_HUB_H
 
-struct s_sim;
+struct	s_sim;
+struct	s_coder;
 
 typedef struct s_args
 {
@@ -29,7 +30,7 @@ typedef struct s_args
 
 typedef struct s_heap
 {
-	void	*list;
+	struct s_coder	**list;
 	int		size;
 	int		capacity;
 }	t_heap;

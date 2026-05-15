@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 18:24:43 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/14 14:55:56 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/15 17:15:11 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,14 @@ bool	refactor(t_sim *sim, t_coder *coder);
 //Monitor
 void	*monitoring(void *arg);
 
+// Scheduling
+void	take_dongles(t_coder *coder);
+void	claim_both_dongles(t_coder *coder);
+void	release_dongles(t_coder *coder);
+bool	available(t_coder *coder, t_dongle *left, t_dongle *right);
+
 // Heap
+void	heap_push(t_heap *heap, t_coder *coder);
 void	edf_push(t_heap *heap, t_coder *coder);
 void	fifo_push(t_heap *heap, t_coder *coder);
 void	heap_pop(t_heap *heap);
@@ -68,6 +75,7 @@ long	now_ms(void);
 bool	sim_active(t_sim *sim);
 bool	compiles_done(t_sim *sim);
 int		burnout(t_sim *sim);
+void	ft_swap(t_coder **a, t_coder **b);
 void	precise_sleep(t_sim *sim, int sleep_ms);
 void	printx(t_sim *sim, t_coder *coder, char *message);
 void	safe_exit_dong(t_sim *sim, t_dongle *dongle, int ix);

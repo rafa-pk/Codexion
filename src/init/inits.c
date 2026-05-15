@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 15:04:49 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/14 19:16:05 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/15 16:38:41 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool	init_heap(t_heap *heap)
 {
-	heap->list = malloc(sizeof(t_dongle) * 2);
+	heap->list = malloc(sizeof(t_coder) * 2);
 	if (!heap->list)
 		return (false);
 	heap->size = 0;
