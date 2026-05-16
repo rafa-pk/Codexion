@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 15:04:49 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/15 16:38:41 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/16 18:08:12 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ bool	init_coder(t_sim *sim, t_coder *coder, int id, int nb_coders)
 	coder->id = id;
 	coder->compile_count = 0;
 	coder->start = sim->start;
+	coder->dongle_request = 0;
 	coder->thread_id = 0;
 	if (pthread_mutex_init(&coder->mutex, NULL))
 		return (false);

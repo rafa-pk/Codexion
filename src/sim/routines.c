@@ -6,11 +6,23 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 17:38:47 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/15 17:21:12 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/16 17:13:19 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/codexion.h"
+
+void	announce_burnout(t_sim *sim, int coder)
+{
+	long	now;
+	
+	pthread_mutex_lock(&sim->mutex);
+	now = now_ms() - sim->start;
+	sim->active = false;
+	printf("%ld %d burned out\n", now, sim->coders[coder].id);
+	pthread_cond_broadcast(&sim->cond);
+	pthread_mutex_unlock(&sim->mutex);
+}
 
 void	*routine(void *arg)
 {
@@ -37,7 +49,6 @@ void	*monitoring(void *arg)
 	t_sim	*sim;
 	int		i;
 	int		dead;
-	long	now;
 
 	sim = (t_sim *)arg;
 	printf("In monitoring thread\n");
@@ -45,19 +56,13 @@ void	*monitoring(void *arg)
 	{
 		dead = burnout(sim);
 		if (dead!= -1)
-		{
-			pthread_mutex_lock(&sim->mutex);
-			now = now_ms() - sim->start;
-			sim->active = false;
-			printf("%ld %d burned out\n", now, sim->coders[dead].id);
-			pthread_mutex_unlock(&sim->mutex);
-			return (NULL);
-		}
+			return (announce_burnout(sim, dead), NULL);
 		i++;
 		usleep(500);
 	}
 	pthread_mutex_lock(&sim->mutex);
 	sim->active = false;
+	pthread_cond_broadcast(&sim->cond);
 	pthread_mutex_unlock(&sim->mutex);
 	return (NULL);
 }

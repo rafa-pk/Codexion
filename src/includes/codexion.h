@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 18:24:43 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/15 17:15:11 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/16 17:10:19 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,12 @@ bool	refactor(t_sim *sim, t_coder *coder);
 void	*monitoring(void *arg);
 
 // Scheduling
-void	take_dongles(t_coder *coder);
+bool	take_dongles(t_coder *coder);
+bool	available(t_coder *coder, t_dongle *left, t_dongle *right);
+void	pthread_wait(t_sim *sim, t_coder *coder);
+void	next_wakeup(t_coder *coder, long cooldown_ms, struct timespec *deadline);
 void	claim_both_dongles(t_coder *coder);
 void	release_dongles(t_coder *coder);
-bool	available(t_coder *coder, t_dongle *left, t_dongle *right);
 
 // Heap
 void	heap_push(t_heap *heap, t_coder *coder);
@@ -75,10 +77,13 @@ long	now_ms(void);
 bool	sim_active(t_sim *sim);
 bool	compiles_done(t_sim *sim);
 int		burnout(t_sim *sim);
+void	announce_burnout(t_sim *sim, int coder);
 void	ft_swap(t_coder **a, t_coder **b);
 void	precise_sleep(t_sim *sim, int sleep_ms);
 void	printx(t_sim *sim, t_coder *coder, char *message);
 void	safe_exit_dong(t_sim *sim, t_dongle *dongle, int ix);
 void	safe_exit_code(t_sim *sim, t_coder *coder, int ix);
+void	monitor_failure_exit(t_sim *sim);
+void	coder_failure_exit(t_sim *sim, int ix);
 
 #endif

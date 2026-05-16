@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 15:49:44 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/15 17:16:37 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/16 17:10:47 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	precise_sleep(t_sim *sim, int sleep_ms)
 
 bool	compile(t_sim *sim, t_coder *coder)
 {
-	take_dongles(coder);
+	if (!take_dongles(coder))
+		return (false);
 	printx(sim, coder, "has taken a dongle\n");
 	printx(sim, coder, "has taken a dongle\n");
 	if (!sim_active(sim))

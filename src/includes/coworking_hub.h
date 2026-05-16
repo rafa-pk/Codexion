@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 18:31:51 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/15 16:39:07 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/16 18:07:21 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_coder
 	int				id;
 	int				compile_count;
 	long			start;
+	long			dongle_request;
 	pthread_t		thread_id;
 	pthread_mutex_t	mutex;
 	t_dongle		*left;

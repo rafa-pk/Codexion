@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 13:41:28 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/15 17:15:41 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/16 16:13:02 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	printx(t_sim *sim, t_coder *coder, char *message)
 	
 	pthread_mutex_lock(&coder->mutex);
 	now = now_ms() - sim->start;
-	printf("%ld %d %s", now, coder->id, message);
+	if (sim->active)
+		printf("%ld %d %s", now, coder->id, message);
 	pthread_mutex_unlock(&coder->mutex);
 }

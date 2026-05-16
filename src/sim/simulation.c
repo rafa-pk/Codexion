@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 19:01:23 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/14 19:19:08 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/16 17:15:59 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ bool	create_coders(t_sim *sim, int nb_coders)
 	{
 		if (pthread_create(&sim->coders[i].thread_id, NULL, routine,
 						&sim->coders[i]))
-			return (false);
+			return (coder_failure_exit(sim, i), false);
 		i++;
 	}
 	return (true);
@@ -111,10 +111,10 @@ bool	simulation(t_args *args)
 		return (false);
 	//print_args(args);
 	if (pthread_create(&sim.monitor, NULL, monitoring, &sim))
-		return (false);	//TODO: cleanup on failure
+		return (monitor_failure_exit(&sim), false);
 	printf("Monitor thread created\n");
 	if (!create_coders(&sim, args->number_of_coders))
-		return (false);	//TODO: idem
+		return (false);
 	wait_for_coders(&sim, args->number_of_coders);
 	cleanup(&sim);
 	return (true);
