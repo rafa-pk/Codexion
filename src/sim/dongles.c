@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 18:24:08 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/16 17:54:50 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/17 17:34:54 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,11 @@ bool	available(t_coder *coder, t_dongle *left, t_dongle *right)
 	now = now_ms();
 	pthread_mutex_lock(&left->mutex);
 	pthread_mutex_lock(&right->mutex);
-	// printf("DEBUG coder=%d, left=%d (taken=%d, peek=%d), right=%d (taken=%d, peek=%d)\n",
-    //       coder->id,
-    //       left->id, left->taken, heap_peek(&left->heap),
-    //       right->id, right->taken, heap_peek(&right->heap));
 	available = !left->taken && !right->taken
-			&& (now - left->released_at) > cooldown
-			&& (now -right->released_at) > cooldown
-			&& heap_peek(&left->heap) == coder->id
-			&& heap_peek(&right->heap) == coder->id;
+		&& (now - left->released_at) > cooldown
+		&& (now - right->released_at) > cooldown
+		&& (heap_peek(&left->heap) == coder->id
+			|| heap_peek(&right->heap) == coder->id);
 	pthread_mutex_unlock(&left->mutex);
 	pthread_mutex_unlock(&right->mutex);
 	return (available);
@@ -50,6 +46,8 @@ void	claim_both_dongles(t_coder *coder)
 
 bool	take_dongles(t_coder *coder)
 {
+	if (coder->sim->args->number_of_coders == 1)
+		return (take_one_dongle(coder));
 	pthread_mutex_lock(&coder->left->mutex);
 	heap_push(&coder->left->heap, coder);
 	pthread_mutex_unlock(&coder->left->mutex);

@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 18:24:43 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/16 17:10:19 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/17 15:04:28 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # define EDF 0
 
 // ERROR MESSAGES
-# define NOT_ENOUGH_ARGS "Error: Too many arguments passed (8 required)\n"
-# define TOO_MANY_ARGS "Error: Not enough arguments passed (8 required)\n"
+# define TOO_MANY_ARGS "Error: Too many arguments passed (8 required)\n"
+# define NOT_ENOUGH_ARGS "Error: Not enough arguments passed (8 required)\n"
 # define NON_INT "Parsing Error: argument is not a valid positive integer\n"
 # define INT_OVERFLOW "Parsing Error: argument exceeds INT_MAX\n"
 # define INV_SCHEDULER "Parsing Error: Scheduler only accepts 'fifo' or 'edf'\n"
@@ -59,9 +59,11 @@ void	*monitoring(void *arg);
 
 // Scheduling
 bool	take_dongles(t_coder *coder);
+bool	take_one_dongle(t_coder *coder);
 bool	available(t_coder *coder, t_dongle *left, t_dongle *right);
 void	pthread_wait(t_sim *sim, t_coder *coder);
-void	next_wakeup(t_coder *coder, long cooldown_ms, struct timespec *deadline);
+void	next_wakeup(t_coder *coder, long cooldown_ms,
+			struct timespec *deadline);
 void	claim_both_dongles(t_coder *coder);
 void	release_dongles(t_coder *coder);
 

@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 15:04:49 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/16 18:08:12 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/17 15:03:06 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,3 @@ bool	init_coder(t_sim *sim, t_coder *coder, int id, int nb_coders)
 	coder->sim = sim;
 	return (true);
 }
-

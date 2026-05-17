@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 19:01:23 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/16 17:15:59 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/17 17:30:19 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,27 @@ bool	sim_init(t_sim *sim, t_args *args)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	sim->active = true;
 	sim->start = now_ms();
 	sim->args = args;
 	pthread_mutex_init(&sim->mutex, NULL);
+	pthread_mutex_init(&sim->init_mutex, NULL);
 	pthread_cond_init(&sim->cond, NULL);
 	sim->dongles = malloc(sizeof(t_dongle) * args->number_of_coders);
 	sim->coders = malloc(sizeof(t_coder) * args->number_of_coders);
-	if (!sim->dongles && !sim->coders)
+	if (!sim->dongles || !sim->coders)
 		return (false);
-	while (i < args->number_of_coders)
+	while (++i < args->number_of_coders)
 	{
 		if (!init_dongle(&sim->dongles[i], i))
 			return (safe_exit_dong(sim, sim->dongles, i), false);
-		i++;
 	}
-	i = 0;
-	while (i < args->number_of_coders)
+	i = -1;
+	while (++i < args->number_of_coders)
 	{
 		if (!init_coder(sim, &sim->coders[i], i, args->number_of_coders))
 			return (safe_exit_code(sim, sim->coders, i), false);
-		i++;
 	}
 	return (true);
 }
@@ -50,8 +49,10 @@ bool	create_coders(t_sim *sim, int nb_coders)
 	while (i < nb_coders)
 	{
 		if (pthread_create(&sim->coders[i].thread_id, NULL, routine,
-						&sim->coders[i]))
+				&sim->coders[i]))
 			return (coder_failure_exit(sim, i), false);
+		if (i < nb_coders - 1)
+			pthread_mutex_lock(&sim->init_mutex);
 		i++;
 	}
 	return (true);
@@ -88,31 +89,16 @@ void	cleanup(t_sim *sim)
 	free(sim->coders);
 }
 
-void	print_args(t_args *args)
-{
-	printf("Number of coders: %d\n", args->number_of_coders);
-	printf("Time to burnout: %d ms\n", args->time_to_burnout_ms);
-	printf("Time to compile: %d ms\n", args->time_to_compile_ms);
-	printf("Time to debug: %d ms\n", args->time_to_debug_ms);
-	printf("Time to refactor: %d ms\n", args->time_to_refactor_ms);
-	printf("Number of compiles req: %d\n", args->number_of_compiles_required);
-	printf("Dongle cooldown: %d ms\n", args->dongle_cooldown_ms);
-	if (args->scheduler)
-		printf("Scheduler: 'fifo'\n");
-	else
-		printf("Scheduler: 'edf'\n");
-}
-
 bool	simulation(t_args *args)
 {
 	t_sim	sim;
 
 	if (!sim_init(&sim, args))
 		return (false);
-	//print_args(args);
 	if (pthread_create(&sim.monitor, NULL, monitoring, &sim))
 		return (monitor_failure_exit(&sim), false);
 	printf("Monitor thread created\n");
+	pthread_mutex_lock(&sim.init_mutex);
 	if (!create_coders(&sim, args->number_of_coders))
 		return (false);
 	wait_for_coders(&sim, args->number_of_coders);

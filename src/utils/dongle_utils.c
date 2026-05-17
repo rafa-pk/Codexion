@@ -5,11 +5,34 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/16 15:52:27 by rvaz-da-          #+#    #+#             */
+/*   Created: 2026/05/17 15:06:13 by rvaz-da-          #+#    #+#             */
+/*   Updated: 2026/05/17 15:06:16 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/codexion.h"
+
+bool	take_one_dongle(t_coder *coder)
+{
+	long	now;
+	long	cooldown;
+
+	cooldown = coder->sim->args->dongle_cooldown_ms;
+	now = now_ms();
+	pthread_mutex_lock(&coder->sim->mutex);
+	while (coder->sim->active && !((now - coder->left->released_at) > cooldown))
+		pthread_cond_wait(&coder->sim->cond, &coder->sim->mutex);
+	if (!coder->sim->active)
+	{
+		pthread_mutex_unlock(&coder->sim->mutex);
+		return (false);
+	}
+	pthread_mutex_lock(&coder->mutex);
+	coder->left->taken = true;
+	pthread_mutex_unlock(&coder->mutex);
+	pthread_mutex_unlock(&coder->sim->mutex);
+	return (true);
+}
 
 void	next_wakeup(t_coder *coder, long cooldown_ms, struct timespec *deadline)
 {
@@ -27,7 +50,7 @@ void	next_wakeup(t_coder *coder, long cooldown_ms, struct timespec *deadline)
 	pthread_mutex_unlock(&coder->right->mutex);
 	if (left < right)
 		earliest = left;
-	else if (right < left)
+	else
 		earliest = right;
 	if (earliest <= now)
 		earliest = now + 50;

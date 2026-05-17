@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 15:49:44 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/16 17:10:47 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/17 14:57:34 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,3 @@ bool	refactor(t_sim *sim, t_coder *coder)
 		return (false);
 	return (true);
 }
-

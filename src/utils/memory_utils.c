@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 15:59:12 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/16 17:13:54 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/17 17:29:46 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	safe_exit_dong(t_sim *sim, t_dongle *dongles, int ix)
 
 	i = 0;
 	pthread_mutex_destroy(&sim->mutex);
+	pthread_mutex_destroy(&sim->init_mutex);
 	pthread_cond_destroy(&sim->cond);
 	while (i <= ix)
 	{
@@ -35,6 +36,7 @@ void	safe_exit_code(t_sim *sim, t_coder *coders, int ix)
 
 	i = 0;
 	pthread_mutex_destroy(&sim->mutex);
+	pthread_mutex_destroy(&sim->init_mutex);
 	pthread_cond_destroy(&sim->cond);
 	while (i < sim->args->number_of_coders)
 	{

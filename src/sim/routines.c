@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 17:38:47 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/16 17:13:19 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/17 17:27:29 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	announce_burnout(t_sim *sim, int coder)
 {
 	long	now;
-	
+
 	pthread_mutex_lock(&sim->mutex);
 	now = now_ms() - sim->start;
 	sim->active = false;
@@ -31,6 +31,7 @@ void	*routine(void *arg)
 
 	coder = (t_coder *)arg;
 	sim = coder->sim;
+	pthread_mutex_unlock(&sim->init_mutex);
 	printf("In coder routine\n");
 	while (sim_active(sim))
 	{
@@ -55,7 +56,7 @@ void	*monitoring(void *arg)
 	while (!compiles_done(sim))
 	{
 		dead = burnout(sim);
-		if (dead!= -1)
+		if (dead != -1)
 			return (announce_burnout(sim, dead), NULL);
 		i++;
 		usleep(500);

@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 18:31:51 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/16 18:07:21 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/17 17:24:21 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ typedef struct s_args
 typedef struct s_heap
 {
 	struct s_coder	**list;
-	int		size;
-	int		capacity;
+	int				size;
+	int				capacity;
 }	t_heap;
 
 typedef struct s_dongle
@@ -61,6 +61,7 @@ typedef struct s_sim
 {
 	bool			active;
 	long			start;
+	pthread_mutex_t	init_mutex;
 	pthread_mutex_t	mutex;
 	pthread_cond_t	cond;
 	pthread_t		monitor;

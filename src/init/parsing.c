@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 18:39:47 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/14 12:37:48 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/17 15:02:56 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,3 @@ void	init_args(t_args *args, char **av)
 	else if (!strcmp(av[8], "edf"))
 		args->scheduler = 0;
 }
-

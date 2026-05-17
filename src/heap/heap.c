@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 14:06:02 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/16 23:09:42 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/17 15:06:41 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	fifo_push(t_heap *heap, t_coder *coder)
 	heap->size++;
 	if (heap->size == 1)
 		return ;
-	if (heap->list[0]->dongle_request > heap->list[heap->size - 1]->dongle_request)
+	if (heap->list[0]->dongle_request
+		> heap->list[heap->size - 1]->dongle_request)
 		ft_swap(&heap->list[0], &heap->list[heap->size - 1]);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rvaz-da- <rvaz-da-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 13:41:28 by rvaz-da-          #+#    #+#             */
-/*   Updated: 2026/05/16 16:13:02 by rvaz-da-         ###   ########.fr       */
+/*   Updated: 2026/05/17 15:05:53 by rvaz-da-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ bool	compiles_done(t_sim *sim)
 	while (i < sim->args->number_of_coders)
 	{
 		pthread_mutex_lock(&sim->coders[i].mutex);
-		if (sim->coders[i].compile_count < sim->args->number_of_compiles_required)
+		if (sim->coders[i].compile_count
+			< sim->args->number_of_compiles_required)
 			return (pthread_mutex_unlock(&sim->coders[i].mutex), false);
 		pthread_mutex_unlock(&sim->coders[i].mutex);
 		i++;
@@ -69,7 +70,7 @@ int	burnout(t_sim *sim)
 void	printx(t_sim *sim, t_coder *coder, char *message)
 {
 	long	now;
-	
+
 	pthread_mutex_lock(&coder->mutex);
 	now = now_ms() - sim->start;
 	if (sim->active)
