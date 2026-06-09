@@ -11,6 +11,7 @@ In the simulation, each coder is represented as a thread and each dongle as a mu
 
 ### Instructions
 The project's executable is created via make, and arguments are then passed when running it.
+
 **Available make rules:**
 
 ```
@@ -45,7 +46,7 @@ In order for the simulation to run smoothly to the end, time_to_burnout has to b
 ### Blocking cases handled:
 **Deadlock prevention**
 
-Deadlock happens when a two threads are stuck in a state of inactivity where they are both stuck waiting for a resource held by the other.
+Deadlock happens when two threads are stuck in a state of inactivity where they are both waiting for a resource held by the other.
 In order for it to happen, 4 conditions have to come together — the Coffman's conditions:
 1. Mutual exclusion (resources can't be shared, only a thread holds them at a time)
 2. Hold and wait (threads hold one resource while requesting another)
@@ -56,13 +57,13 @@ In order to break circular wait, a global acquisition order was imposed — ever
 
 **Starvation prevention**
 
-Starvation happens when the OS scheduler perpetually denies CPU time/shared resources to a thread and it essentially goes forgotten, eventhough it is available.
+Starvation happens when the OS scheduler perpetually denies CPU time/shared resources to a thread and it essentially goes forgotten, even though it is available.
 In order to avoid this, two schedulling policies have been implemented in a per-dongle heap queue:
 1. FIFO (first-in-first-out) - the first thread to have claimed the dongle is the first one to get it
 2. EDF (earliest deadline first) - the thread closest to burning out is the first one to get it.
 EDF's deadline is calculated as: deadline = last_compile_start + time_to_burnout
 
-Eventhough the standard way to implement these schedulling policies is through a min-heap (binary-tree structured array), I came to the conclusion that a fixed 2 coder capacity array was enough and much simpler. 
+Even though the standard way to implement these schedulling policies is through a min-heap (binary-tree structured array), I came to the conclusion that a fixed 2 coder capacity array was enough and much simpler. 
 That is because:
 - There are as many dongles as coders
 - Every coder needs two dongles to compile
